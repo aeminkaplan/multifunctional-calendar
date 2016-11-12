@@ -45,12 +45,16 @@ public class Thfra extends javax.swing.JFrame {
         jLabel1.setText("" + day + "/" + month + "/" + year + " ");
         
         FileReader fileReader = new FileReader(new File("passDats.txt"));
-
+        FileReader fileReader2 = new FileReader(new File("acDats.txt"));
+        
         BufferedReader br = new BufferedReader(fileReader);
-
+        BufferedReader br2 = new BufferedReader(fileReader2);
+        
+        
         String line = null;
         
         br.readLine();
+       
         while ((line = br.readLine()) != null) // reading lines until the end of the file
         {
            
@@ -59,7 +63,7 @@ public class Thfra extends javax.swing.JFrame {
             String[] secSplit = splitStr[0].split(":");
             
             String[] endSplit = secSplit[0].split("H");
-            System.out.println(Integer.parseInt(secSplit[1]));
+            
             if(endSplit[0].equals(jLabel1.getText()))
               pasList[Integer.parseInt(secSplit[1])] = "FULL";
            
@@ -68,7 +72,28 @@ public class Thfra extends javax.swing.JFrame {
             
         }
         br.close();
+        
+        br2.readLine();
+        
+        while ((line = br2.readLine()) != null) // reading lines until the end of the file
+        {
+           
+            
+            String[] splitStr = MFCal.decode(line).split("é");
+            String[] secSplit = splitStr[0].split(":");
+            
+            String[] endSplit = secSplit[0].split("H");
+           
+            if(endSplit[0].equals(jLabel1.getText()))
+              acList[Integer.parseInt(secSplit[1])] = "FULL";
+           
+               
+            
+            
+        }
+        br2.close();
         jList2.setListData(pasList);
+        jList1.setListData(acList);
     }
 
     /**
