@@ -6,8 +6,10 @@
 package mfcal;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +23,7 @@ public class Fiffra extends javax.swing.JFrame {
     /**
      * Creates new form Fiffra
      */
-    public Fiffra(int day,int month,int year,int hour) throws IOException {
+    public Fiffra(int day, int month, int year, int hour) throws IOException {
         initComponents();
         this.day = day;
         this.month = month;
@@ -29,16 +31,31 @@ public class Fiffra extends javax.swing.JFrame {
         this.hour = hour;
         jLabel1.setText(day + "/" + month + "/" + year + " Hour :" + hour);
 
-        FileReader fileReader = new FileReader(new File("passDats.txt"));
+        FileReader fileReader = new FileReader(new File("acDats.txt"));
 
         BufferedReader br = new BufferedReader(fileReader);
 
         String line = null;
-         br.readLine();
-        
-         // okuma
+        br.readLine();
+
+      
+         while ((line = br.readLine()) != null) // reading lines until the end of the file
+        {
+           
+            
+            String[] splitStr = MFCal.decode(line).split("é");
+            if (splitStr[0].equals(jLabel1.getText())) {
+                String [] secSplit = splitStr[1].split("#");
+                jTextField1.setText(secSplit[0]);
+                jTextField2.setText(secSplit[1]);
+            }
+           
+               
+             
+            
+        }
          
-         br.close();
+        br.close();
     }
 
     /**
@@ -88,13 +105,10 @@ public class Fiffra extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(125, 125, 125)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3)))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,6 +130,11 @@ public class Fiffra extends javax.swing.JFrame {
         );
 
         jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Back");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -169,7 +188,7 @@ public class Fiffra extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       Thfra x = null;
+        Thfra x = null;
         try {
             x = new Thfra(this.day, this.month, this.year);
         } catch (IOException ex) {
@@ -180,7 +199,55 @@ public class Fiffra extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-   
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String firTex = this.day + "/" + this.month + "/" + this.year + " Hour :" + this.hour + "é";
+
+        String file = jTextField1.getText();
+        String link = jTextField2.getText();
+
+        firTex += file;
+
+        firTex += "#";
+
+        firTex += link;
+
+        String willSend = new String();
+
+        FileWriter fileWriter = null;
+
+        willSend += MFCal.encode(firTex) + "\r\n";
+
+        try {
+            fileWriter = new FileWriter("acDats.txt", true);
+        } catch (IOException ex) {
+            Logger.getLogger(Fourfra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BufferedWriter bufferWritter = new BufferedWriter(fileWriter);
+        try {
+            bufferWritter.append(willSend);
+
+        } catch (IOException ex) {
+            Logger.getLogger(Fourfra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            bufferWritter.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Fourfra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Thfra x = null;
+        try {
+            x = new Thfra(day, month, year);
+        } catch (IOException ex) {
+            Logger.getLogger(Fourfra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        x.setLocation(this.getLocation());
+        x.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -196,5 +263,5 @@ public class Fiffra extends javax.swing.JFrame {
     private int month;
     private int year;
     private int hour;
-    
+
 }
