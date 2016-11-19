@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 import java.net.*;
 import java.io.*;
 import java.util.logging.Level;
@@ -10,7 +16,7 @@ import java.util.logging.Logger;
  *  bu aktif gorev icin bir ip ve file path alir.
  *  Arka planda bir thread kullanarak
  *  bu aktif gorevi yani verilen dosyayi verilen ip ye gonderir.
- * @author mutlu koktemir , osman süzer
+ * @author mutlu koktemir
  */
 public class ActiveJobThread implements Runnable{
     
