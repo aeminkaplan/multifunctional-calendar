@@ -12,7 +12,7 @@ import java.text.*;
 import java.util.GregorianCalendar;
 
 
-public class MyCalendar{
+public class DayCalculater {
 	
 	private Calendar calendar;
 	private SimpleDateFormat sdf; //Date format i.e 10/11/2016
@@ -20,7 +20,7 @@ public class MyCalendar{
 
 
 
-	public MyCalendar(){
+	public DayCalculater(){
 		calendar=Calendar.getInstance();
 		sdf = new SimpleDateFormat("dd/MM/yyyy");
 		df=new SimpleDateFormat("EEEE");
